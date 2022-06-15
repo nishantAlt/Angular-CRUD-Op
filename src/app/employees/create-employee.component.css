@@ -1,0 +1,12 @@
+.imageClass{
+    width: 200px;
+    height: 200px;
+}
+
+.invalidBorder {
+    border: 2px solid rgb(224, 37, 37);
+  }
+
+  .invalidColor{
+    color: rgb(224, 37, 37);
+  }

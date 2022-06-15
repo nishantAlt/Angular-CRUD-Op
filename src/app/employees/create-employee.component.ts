@@ -15,7 +15,17 @@ export class CreateEmployeeComponent implements OnInit {
     {id:'D3',name:'IT'},
     {id:'D4',name:'Payroll'},
   ]  
+
+  previewPhoto=false;
+
 isActive=true;
+photoPath="";
+
+togglePhotoPreview()
+{
+  this.previewPhoto=!this.previewPhoto
+}
+
   constructor() { }
 
   ngOnInit(): void {
@@ -23,5 +33,6 @@ isActive=true;
 
   saveEmployee(empForm:NgForm) {
     console.log(empForm.value);
+    console.log(empForm);
   }
 }

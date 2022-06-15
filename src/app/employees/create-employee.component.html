@@ -1,80 +1,163 @@
 <form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employeeForm)">
   <div class="mb-3 form-group">
     <div class="mb-3">
-        <label for="firstName" class="form-label">First Name</label>
-        <input type="text" ngModel class="form-control" name="firstName" id="firstName" />
+      <label
+        for="name"
+        [class.invalidColor]="nameControl.invalid && nameControl.touched"
+        class="form-label control-label"
+        >Name</label
+      >
+      <input
+        type="text"
+        [class.invalidBorder]="nameControl.invalid && nameControl.touched"
+        ngModel
+        class="form-control"
+        name="name"
+        id="name"
+        #nameControl="ngModel"
+      />
+      <span
+        [class.invalidColor]="nameControl.invalid && nameControl.touched"
+        *ngIf="nameControl.invalid && nameControl.touched"
+        >Required Field</span
+      >
+    </div>
+
+    <div class="form-group mb-3 has-error">
+      <label class="form-label">Contact Preference</label>
+      <div class="form-control">
+        <label class="radio-inline mx-3"
+          ><input
+            type="radio"
+            value="phoneNumber"
+            ngModel
+            name="contactPreference"
+          />Phone Number</label
+        >
+        <label for="exampleInputEmail1" class="radio-inline"
+          ><input
+            type="radio"
+            value="email"
+            ngModel
+            name="contactPreference"
+          />Email</label
+        >
       </div>
-    
-      <div class="form-group mb-3">
-        <label class="form-label">Contact Preference</label>
-       <div class="form-control">
-        <label class="radio-inline  mx-3"><input type="radio" value="phn" ngModel name="cp"/>Phone Number</label>
-        <label for="exampleInputEmail1" class="radio-inline"><input type="radio" value="email" ngModel name="cp"/>Email</label>
-       </div>
-      </div>
+    </div>
 
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input
-      type="email"
-      ngModel
-      name="email"
-      class="form-control"
-      id="exampleInputEmail1"
-      aria-describedby="emailHelp"
-    />
-    <div id="emailHelp" class="form-text">
-      We'll never share your email with anyone else.
+      <input
+        type="email"
+        ngModel
+        name="email"
+        class="form-control"
+        id="exampleInputEmail1"
+        aria-describedby="emailHelp"
+      />
+      <div id="emailHelp" class="form-text">
+        We'll never share your email with anyone else.
+      </div>
     </div>
-    </div>
-  
+
     <div class="mb-3">
-      <label for="phn" class="form-label">Phone Number</label>
-    <input
-      type="text"
-      ngModel
-      name="phn"
-      class="form-control"
-      id="phn"
-    />
+      <label for="phoneNumber" class="form-label">Phone Number</label>
+      <input
+        type="text"
+        ngModel
+        name="phoneNumber"
+        class="form-control"
+        id="phoneNumber"
+      />
     </div>
 
-  <div class="form-group mb-3">
-    <label class="form-label">Gender</label>
-   <div class="form-control">
-    <label class="radio-inline mx-3"><input type="radio" value="male" ngModel name="gender"/>Male</label>
-    <label for="exampleInputEmail1" class="radio-inline"><input type="radio" value="female" ngModel name="gender"/>Female</label>
-   </div>
-  </div>
-
-  <div class="form-group mb-3">
-    <div class="form-control">
-      <label for="" class="checkbox-inline">
-        <input type="checkbox" [(ngModel)]="isActive" name="isActive"/> is Active
-      </label>
+    <div class="form-group mb-3">
+      <label class="form-label">Gender</label>
+      <div class="form-control">
+        <label class="radio-inline mx-3"
+          ><input type="radio" value="male" ngModel name="gender" />Male</label
+        >
+        <label for="exampleInputEmail1" class="radio-inline"
+          ><input
+            type="radio"
+            value="female"
+            ngModel
+            name="gender"
+          />Female</label
+        >
+      </div>
     </div>
+
+    <div class="form-group mb-3">
+      <label for="dateOfBirth">Date of Birth</label>
+      <input
+        id="dateOfBirth"
+        name="dateOfBirth"
+        ngModel
+        class="form-control"
+        type="date"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="department">Department</label>
+      <select class="form-control" id="department" name="department" ngModel>
+        <option *ngFor="let dept of departments" [value]="dept.id">
+          {{ dept.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group mb-3">
+      <div class="form-control">
+        <label for="" class="checkbox-inline">
+          <input type="checkbox" [(ngModel)]="isActive" name="isActive" /> is
+          Active
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="photoPath">Photo Path</label>
+      <input
+        id="photoPath"
+        name="photoPath"
+        [(ngModel)]="photoPath"
+        type="text"
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <button
+        type="button"
+        (click)="togglePhotoPreview()"
+        class="btn btn-primary"
+      >
+        {{ previewPhoto ? "Hide" : "Show" }} Preview
+      </button>
+    </div>
+
+    <div class="form-group mb-3">
+      <img [src]="photoPath" class="imageClass" *ngIf="previewPhoto" />
+    </div>
+
+    <button
+      [disabled]="employeeForm.invalid"
+      type="submit"
+      class="btn btn-primary"
+    >
+      Save
+    </button>
   </div>
-
-  
-
-  <div class="mb-3">
-    <label for="dept">Department</label>
-    <select class="form-control" id="dept" name="dept" ngModel>
-      <option *ngFor="let dept of departments" [value]="dept.id">
-        {{dept.name}}
-      </option>
-    </select>
-  </div>
-
-  <button [disabled]="employeeForm.invalid" type="submit" class="btn btn-primary">Save</button>
-</div>
- 
 </form>
 
 <div class="container mt-5">
-    Angular Generated Form Model: {{employeeForm.value |json}}
+  Angular Generated Form Model: {{ employeeForm.value | json }}
 </div>
 <!-- <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1" />
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div> -->
+  </div> 
+ [disabled]="employeeForm.invalid"
+-->
