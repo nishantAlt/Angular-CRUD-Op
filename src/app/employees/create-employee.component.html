@@ -1,4 +1,5 @@
 <form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employeeForm)">
+
   <div class="mb-3 form-group">
     <div class="mb-3">
       <label
@@ -10,11 +11,12 @@
       <input
         type="text"
         [class.invalidBorder]="nameControl.invalid && nameControl.touched"
-        ngModel
+        [(ngModel)]="employee.name"
         class="form-control"
         name="name"
         id="name"
         #nameControl="ngModel"
+        required="{{required}}"
       />
       <span
         [class.invalidColor]="nameControl.invalid && nameControl.touched"
@@ -26,62 +28,110 @@
     <div class="form-group mb-3 has-error">
       <label class="form-label">Contact Preference</label>
       <div class="form-control">
-        <label class="radio-inline mx-3"
+        <label class="radio-inline mx-3" for="phn"
           ><input
             type="radio"
             value="phoneNumber"
-            ngModel
+            id="phn"
+            required="{{required}}"
+            [(ngModel)]="employee.contactPreference"
             name="contactPreference"
           />Phone Number</label
         >
-        <label for="exampleInputEmail1" class="radio-inline"
+        <label for="exampleInputEmail1" class="radio-inline" for="em"
           ><input
+            id="em"
             type="radio"
             value="email"
-            ngModel
+            [(ngModel)]="employee.contactPreference"
             name="contactPreference"
           />Email</label
         >
       </div>
     </div>
 
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
-      <input
-        type="email"
-        ngModel
-        name="email"
-        class="form-control"
-        id="exampleInputEmail1"
-        aria-describedby="emailHelp"
-      />
-      <div id="emailHelp" class="form-text">
-        We'll never share your email with anyone else.
-      </div>
-    </div>
+      <div >
+        <div class="mb-3" *ngIf="employeeForm.value.contactPreference=='email'">
+          <label for="exampleInputEmail1" class="form-label" [class.invalidColor]="emailcontrol.invalid && emailcontrol.touched">Email address</label>
+          <input
+            pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+            type="email"
+            [(ngModel)]="employee.email"
+            name="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            required="{{employeeForm.value.contactPreference=='email'}}"
+            [class.invalidBorder]="emailcontrol.invalid && emailcontrol.touched"
+            #emailcontrol="ngModel"
+            aria-describedby="emailHelp"
+          />
+          <div id="emailHelp" class="form-text">
+            We'll never share your email with anyone else.
+          </div>
+          <span
+          [class.invalidColor]="
+          emailcontrol.errors?.['required'] && emailcontrol.touched
+          "
+          *ngIf="emailcontrol.errors?.['required'] && emailcontrol.touched"
+          >Required Field</span
+        >
 
-    <div class="mb-3">
-      <label for="phoneNumber" class="form-label">Phone Number</label>
-      <input
-        type="text"
-        ngModel
-        name="phoneNumber"
-        class="form-control"
-        id="phoneNumber"
-      />
-    </div>
+        <span
+          [class.invalidColor]="
+          emailcontrol.touched && emailcontrol.errors?.['pattern'] 
+          "
+          *ngIf="emailcontrol.touched && emailcontrol.errors?.['pattern']" 
+          > Match Pattern </span
+        >
+        </div>
+    
+        <div class="mb-3" *ngIf="employeeForm.value.contactPreference=='phoneNumber'">
+          <label for="phoneNumber" class="form-label" [class.invalidColor]="phoneNumbercontrol.invalid && phoneNumbercontrol.touched">Phone Number</label>
+          <input
+          type="tel"
+          pattern="^[789]\d{9}$"
+          [(ngModel)]="employee.phoneNumber"
+          #phoneNumbercontrol="ngModel"
+          name="phoneNumber"
+          class="form-control"
+          id="phoneNumber"
+          required="{{ employeeForm.value.contactPreference == 'phoneNumber' }}"
+          [class.invalidBorder]="
+          phoneNumbercontrol.invalid && phoneNumbercontrol.touched
+          "
+        />
+        <span
+          [class.invalidColor]="
+          phoneNumbercontrol.errors?.['required'] && phoneNumbercontrol.touched
+          "
+          *ngIf="phoneNumbercontrol.errors?.['required'] && phoneNumbercontrol.touched"
+          >Required Field</span
+        >
+
+        <span
+          [class.invalidColor]="
+          phoneNumbercontrol.touched && phoneNumbercontrol.errors?.['pattern'] 
+          "
+          *ngIf=" phoneNumbercontrol.touched && phoneNumbercontrol.errors?.['pattern']" 
+          > Match Pattern </span
+        >
+      </div>
+      </div>
+
+  
 
     <div class="form-group mb-3">
       <label class="form-label">Gender</label>
       <div class="form-control">
-        <label class="radio-inline mx-3"
-          ><input type="radio" value="male" ngModel name="gender" />Male</label
+        <label class="radio-inline mx-3" for="male"
+          ><input type="radio" value="male" id="male" ngModel name="gender" [(ngModel)]="employee.gender" />Male</label
         >
-        <label for="exampleInputEmail1" class="radio-inline"
+        <label for="exampleInputEmail1" class="radio-inline" for="female"
           ><input
             type="radio"
+            id="female"
             value="female"
-            ngModel
+            [(ngModel)]="employee.gender"
             name="gender"
           />Female</label
         >
@@ -93,36 +143,48 @@
       <input
         id="dateOfBirth"
         name="dateOfBirth"
-        ngModel
+        [(ngModel)]="employee.dateOfBirth"
         class="form-control"
         type="date"
       />
     </div>
 
     <div class="mb-3">
-      <label for="department">Department</label>
-      <select class="form-control" id="department" name="department" ngModel>
+      <label for="department"  [class.invalidColor]="
+      (deptcontrol.errors?.['required'] && deptcontrol.touched) || (employeeForm.value.department=='d0' && deptcontrol.touched)
+      ">Department</label>
+      <select  [class.invalidBorder]="
+      (deptcontrol.errors?.['required'] && deptcontrol.touched) || (employeeForm.value.department=='d0' && deptcontrol.touched)
+      " class="form-control" #deptcontrol="ngModel" required="{{required}}" id="department" name="department" [(ngModel)]="employee.department">
+      <option value='d0'>Select</option>
         <option *ngFor="let dept of departments" [value]="dept.id">
           {{ dept.name }}
         </option>
       </select>
+
+      <span
+          [class.invalidColor]="
+          (deptcontrol.errors?.['required'] && deptcontrol.touched) || (employeeForm.value.department=='d0' && deptcontrol.touched)"
+          *ngIf="(deptcontrol.errors?.['required'] && deptcontrol.touched) || (employeeForm.value.department=='d0' && deptcontrol.touched)"
+          >Required Field</span
+        >
     </div>
 
     <div class="form-group mb-3">
       <div class="form-control">
-        <label for="" class="checkbox-inline">
-          <input type="checkbox" [(ngModel)]="isActive" name="isActive" /> is
+        <label for="isActive" class="checkbox-inline">
+          <input id="isActive" type="checkbox" [(ngModel)]="employee.isActive" name="isActive" /> is
           Active
         </label>
       </div>
     </div>
 
-    <div class="form-group mb-3">
+    <div class="form-group mb-3" for="photoPath">
       <label for="photoPath">Photo Path</label>
       <input
         id="photoPath"
         name="photoPath"
-        [(ngModel)]="photoPath"
+        [(ngModel)]="employee.photoPath"
         type="text"
         class="form-control"
       />
@@ -139,7 +201,45 @@
     </div>
 
     <div class="form-group mb-3">
-      <img [src]="photoPath" class="imageClass" *ngIf="previewPhoto" />
+      <img [src]="employee.photoPath" class="imageClass" *ngIf="previewPhoto" />
+    </div>
+
+
+
+    <div ngModelGroup="passwordGroup" [class.invalidColor]="
+    (passwordControl.invalid && passwordControl.touched) || (cpasswordControl.invalid && !cpasswordControl.errors?.['required'] && cpasswordControl.touched)">
+      <div class="form-group mb-3" >
+        <label for="password" [class.invalidColor]="
+        (passwordControl.errors?.['required'] && passwordControl.touched)">Password</label>
+        <input (input)="cpasswordControl.control.updateValueAndValidity()" [class.invalidBorder]="
+        (passwordControl.invalid && passwordControl.touched) || (cpasswordControl.invalid && cpasswordControl.touched  && !cpasswordControl.errors?.['required'])"  class="form-control" required="{{required}}" type="password" id="password" name="password" #passwordControl="ngModel" [(ngModel)]="employee.password">
+        <span
+            [class.invalidColor]="
+            (passwordControl.errors?.['required'] && passwordControl.touched)"
+            *ngIf="(passwordControl.errors?.['required'] && passwordControl.touched)"
+            >Required Field</span
+          >
+      </div>
+  
+      <div class="form-group mb-3" >
+        <label class="" for="cpassword" [class.invalidColor]="
+        (cpasswordControl.errors?.['required'] && cpasswordControl.touched)">Confirm Password</label>
+        <input [class.invalidBorder]="
+        (passwordControl.invalid && passwordControl.touched) || (cpasswordControl.invalid && cpasswordControl.touched)" class="form-control" required="{{required}}" type="password" id="cpassword" name="cpassword" #cpasswordControl="ngModel" [(ngModel)]="employee.cpassword" appConfirmEqualValidator="password">
+        <span
+            [class.invalidColor]="
+            (cpasswordControl.errors?.['required'] && cpasswordControl.touched)"
+            *ngIf="(cpasswordControl.errors?.['required'] && cpasswordControl.touched)"
+            >Required Field</span
+          >
+         
+          <span
+            [class.invalidColor]="
+            (cpasswordControl.errors?.['notEqual'] && cpasswordControl.touched && !cpasswordControl.errors?.['required'])"
+            *ngIf="(cpasswordControl.errors?.['notEqual'] && cpasswordControl.touched && !cpasswordControl.errors?.['required'])"
+            >Not Matching Password</span
+          >
+      </div>
     </div>
 
     <button
@@ -154,6 +254,7 @@
 
 <div class="container mt-5">
   Angular Generated Form Model: {{ employeeForm.value | json }}
+  {{employeeForm.value.department | json}}
 </div>
 <!-- <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1" />

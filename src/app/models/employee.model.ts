@@ -8,5 +8,7 @@ export class Employee{
     dateOfBirth?:Date;
     department:string="";
     isActive:boolean=false;
-    photoPath?:string=""
+    photoPath?:string="";
+    password:string="";
+    cpassword:string="";
 }

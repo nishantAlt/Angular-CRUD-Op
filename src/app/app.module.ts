@@ -8,10 +8,15 @@ import { ListEmployeesComponent } from './employees/list-employees.component';
 import { CreateEmployeeComponent } from './employees/create-employee.component';
 import { RouterModule,Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { ConfirmEqualValidatorDirective } from './shared/confirm-equal-validator.directive';
+import { EmployeeService } from './employees/employee.service';
+import { DisplayEmployeeComponent } from './employees/display-employee.component';
+import { CreateEmployeeCanDeactivateGuardService } from './employees/create-employee-can-deactivate-gaurd.service';
+import { EmployeeDetailComponent } from './employees/employee-detail.component';
 const appRoutes:Routes=[
   { path:'list', component:ListEmployeesComponent },
-  { path:'create', component:CreateEmployeeComponent },
+  { path:'employees/:id', component:EmployeeDetailComponent },
+  { path:'create', component:CreateEmployeeComponent, canDeactivate: [CreateEmployeeCanDeactivateGuardService] },
   { path:'', redirectTo: '/list', pathMatch:'full' },
 ];
 
@@ -19,7 +24,10 @@ const appRoutes:Routes=[
   declarations: [
     AppComponent,
     ListEmployeesComponent,
-    CreateEmployeeComponent
+    CreateEmployeeComponent,
+    ConfirmEqualValidatorDirective,
+    DisplayEmployeeComponent,
+    EmployeeDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +36,7 @@ const appRoutes:Routes=[
     RouterModule.forRoot(appRoutes),
     NgbModule
   ],
-  providers: [],
+  providers: [EmployeeService,CreateEmployeeCanDeactivateGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

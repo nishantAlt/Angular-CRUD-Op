@@ -1,51 +1,15 @@
-<div class="panel panel-primary" *ngFor="let employee of employees">
-  <div class="panel-heading bg-blue">
-    <h3 class="panel-title">{{ employee.name }}</h3>
-  </div>
-  <div class="panel-body">
-    <div class="col-md-10">
-      <div class="row vertical-align">
-        <div class="col-md-4">
-          <img class="imageClass" [src]="employee.photoPath" />
-        </div>
+<h1>{{dataFromChild}}</h1>
+<H2 #h2Variable> </H2>
 
-        <div class="col-md-8">
-          <div class="row">
-            <div class="col-md-6">Gender</div>
-            <div class="col-md-6">: {{ employee.gender }}</div>
-          </div>
+<!-- <div (click)="h2Variable.innerHTML= childComponent.employee.gender"></div> -->
 
-          <div class="row">
-            <div class="col-md-6">Date of Birth</div>
-            <div class="col-md-6">: {{ employee.dateOfBirth | date }}</div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">Contact Prefernce</div>
-            <div class="col-md-6">: {{ employee.contactPreference }}</div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">Phone</div>
-            <div class="col-md-6">: {{ employee.phoneNumber }}</div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">Email</div>
-            <div class="col-md-6">: {{ employee.email }}</div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">Department</div>
-            <div class="col-md-6">: {{ employee.department }}</div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">Is Active</div>
-            <div class="col-md-6">: {{ employee.isActive }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div  *ngFor="let employee of employees">
+    <div (click)="onClick(employee.id)" class="pointerCusor">
+    <app-display-employee #childComponent (nofity)="handleNotify($event)" [employee]="employee"></app-display-employee>
   </div>
 </div>
+
+<!-- <button (click)="nextEmployee()" class="btn btn-primary">
+  View Next Employee
+</button><br><br>
+<app-display-employee [employee]="employeeToDisplay"></app-display-employee> -->
