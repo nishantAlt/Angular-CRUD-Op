@@ -18,7 +18,7 @@ export class CreateEmployeeComponent implements OnInit {
     name:"",
     gender:"",
     email:"",
-    phoneNumber:0,
+    phoneNumber:"",
     contactPreference:"",
     dateOfBirth: this.dateofBirth,
     department:'d0',
