@@ -13,10 +13,19 @@ import { EmployeeService } from './employees/employee.service';
 import { DisplayEmployeeComponent } from './employees/display-employee.component';
 import { CreateEmployeeCanDeactivateGuardService } from './employees/create-employee-can-deactivate-gaurd.service';
 import { EmployeeDetailComponent } from './employees/employee-detail.component';
+import { EmployeeFilterPipe } from './employees/employee-filter.pipe';
+import { EmployeeListResolverService } from './employees/employee-list-resolver.service';
+import { PageNotFoundComponent } from './page-not-found.component';
+import { EmployeeDetailsGuardService } from './employees/employee-details-gaurd.service';
 const appRoutes:Routes=[
-  { path:'list', component:ListEmployeesComponent },
-  { path:'employees/:id', component:EmployeeDetailComponent },
+  { path:'list', component:ListEmployeesComponent,
+  resolve: {employeeList: EmployeeListResolverService}  
+},
+  { path:'employees/:id', component:EmployeeDetailComponent ,
+  canActivate: [EmployeeDetailsGuardService]
+},
   { path:'create', component:CreateEmployeeComponent, canDeactivate: [CreateEmployeeCanDeactivateGuardService] },
+  {path: 'notFound',component:PageNotFoundComponent},
   { path:'', redirectTo: '/list', pathMatch:'full' },
 ];
 
@@ -27,7 +36,9 @@ const appRoutes:Routes=[
     CreateEmployeeComponent,
     ConfirmEqualValidatorDirective,
     DisplayEmployeeComponent,
-    EmployeeDetailComponent
+    EmployeeDetailComponent,
+    EmployeeFilterPipe,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +47,8 @@ const appRoutes:Routes=[
     RouterModule.forRoot(appRoutes),
     NgbModule
   ],
-  providers: [EmployeeService,CreateEmployeeCanDeactivateGuardService],
+  providers: [EmployeeService,CreateEmployeeCanDeactivateGuardService, EmployeeListResolverService,
+    EmployeeDetailsGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

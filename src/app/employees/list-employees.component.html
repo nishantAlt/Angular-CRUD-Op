@@ -1,13 +1,27 @@
 <h1>{{dataFromChild}}</h1>
 <H2 #h2Variable> </H2>
 
+<div class="container my-3 ">
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Search By Name" style="width: 300px;" [(ngModel)]="searchTerm">
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-primary" (click)="changeEmployeeName()">Click to Update</button> 
+  </div>
+</div>
+
+
+
 <!-- <div (click)="h2Variable.innerHTML= childComponent.employee.gender"></div> -->
 
-  <div  *ngFor="let employee of employees">
+  <div  *ngFor="let employee of filteredEmployees">
     <div (click)="onClick(employee.id)" class="pointerCusor">
     <app-display-employee #childComponent (nofity)="handleNotify($event)" [employee]="employee"></app-display-employee>
   </div>
 </div>
+
+
 
 <!-- <button (click)="nextEmployee()" class="btn btn-primary">
   View Next Employee

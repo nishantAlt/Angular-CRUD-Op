@@ -1,5 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
-
+import { Observable,of } from 'rxjs';
+import { delay } from 'rxjs';
 import { Employee } from '../models/employee.model';
 
 @Injectable()
@@ -55,8 +56,8 @@ export class EmployeeService implements OnInit {
     
   }
 
-  getEmployees(): Employee[] {
-    return this.listEmployees;
+  getEmployees(): Observable<Employee[]> {
+    return of(this.listEmployees).pipe(delay(2000));
   }
 
   getEmployee(id: number) :Employee{

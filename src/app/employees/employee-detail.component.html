@@ -62,7 +62,7 @@
   </div>
 
   <div class="mt-3">
-    <a [routerLink]="['/list',{id:employee.id}]" class="btn btn-primary">
+    <a [routerLink]="['/list',{id:employee.id}]" queryParamsHandling="preserve" class="btn btn-primary">
         Back to List
     </a>
     <button (click)="ViewNextEmployee()" class="btn btn-primary">

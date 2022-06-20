@@ -25,11 +25,11 @@ export class DisplayEmployeeComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const previousEmployee = <Employee>changes['employee'].previousValue;
-    const currentEmployee = <Employee>changes['employee'].currentValue;
-    console.log('Previous: '+(previousEmployee?previousEmployee.name:'NULL'));
-    console.log('Current: '+currentEmployee.name)
-    console.warn("=====")
+    // const previousEmployee = <Employee>changes['employee'].previousValue;
+    // const currentEmployee = <Employee>changes['employee'].currentValue;
+    // console.log('Previous: '+(previousEmployee?previousEmployee.name:'NULL'));
+    // console.log('Current: '+currentEmployee.name)
+    // console.warn("=====")
 
     this.selectedEmployeeId=+this._route.snapshot.paramMap.get('id');
   }
