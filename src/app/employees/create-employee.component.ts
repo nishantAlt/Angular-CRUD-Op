@@ -55,9 +55,12 @@ required:boolean=true;
   }
 
   saveEmployee(empForm:NgForm) {
+    const newEmployee: Employee = Object.assign({},this.employee)
     console.log(empForm.value);
     console.log(empForm);
-    this._employeeService.save(this.employee);
+    this._employeeService.save(newEmployee);
+    empForm.reset();
     this._router.navigate(['list']);
   }
+
 }

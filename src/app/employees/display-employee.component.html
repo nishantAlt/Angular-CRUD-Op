@@ -1,5 +1,5 @@
 
-  <div class="panel panel-primary" (click)="handleClick()">
+  <div class="alert" [class.alert-info]="selectedEmployeeId===employee.id" [class.alert-primary]="selectedEmployeeId!==employee.id" (click)="handleClick()">
     <div class="panel-heading bg-blue
     ">
         <h3 class="panel-title">{{ employee.name }}</h3>

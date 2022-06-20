@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Employee } from '../models/employee.model';
 
@@ -12,7 +13,9 @@ export class DisplayEmployeeComponent implements OnInit, OnChanges {
 
   @Output() nofity: EventEmitter<string>=new EventEmitter<string>();
 
-  constructor() { }
+  selectedEmployeeId:number;
+
+  constructor(private _route:ActivatedRoute) { }
 
   handleClick(){
     this.nofity.emit(this.employee.name);
@@ -27,5 +30,7 @@ export class DisplayEmployeeComponent implements OnInit, OnChanges {
     console.log('Previous: '+(previousEmployee?previousEmployee.name:'NULL'));
     console.log('Current: '+currentEmployee.name)
     console.warn("=====")
+
+    this.selectedEmployeeId=+this._route.snapshot.paramMap.get('id');
   }
 }
