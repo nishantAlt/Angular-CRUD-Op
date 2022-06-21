@@ -8,6 +8,7 @@ import { ListEmployeesComponent } from './employees/list-employees.component';
 import { CreateEmployeeComponent } from './employees/create-employee.component';
 import { RouterModule,Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {HttpClientModule} from '@angular/common/http'
 import { ConfirmEqualValidatorDirective } from './shared/confirm-equal-validator.directive';
 import { EmployeeService } from './employees/employee.service';
 import { DisplayEmployeeComponent } from './employees/display-employee.component';
@@ -44,6 +45,7 @@ const appRoutes:Routes=[
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes),
     NgbModule
   ],

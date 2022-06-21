@@ -2,10 +2,12 @@ import { Injectable, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs';
 import { Employee } from '../models/employee.model';
-
+import {HttpClient } from '@angular/common/http'
 @Injectable()
 export class EmployeeService implements OnInit {
-  constructor() {}
+  constructor(private _httpClient:HttpClient) {
+
+  }
   
   private listEmployees: Employee[] = [
     {
@@ -51,8 +53,12 @@ export class EmployeeService implements OnInit {
 
   ngOnInit() {}
 
+  // getEmployees(): Observable<Employee[]> {
+  //   return of(this.listEmployees).pipe(delay(2000));
+  // }
+
   getEmployees(): Observable<Employee[]> {
-    return of(this.listEmployees).pipe(delay(2000));
+    return this._httpClient.get<Employee[]>('https://localhost:44337/api/employees');
   }
 
   getEmployee(id: number): Employee {
