@@ -66,7 +66,10 @@ required:boolean=true;
       //this.createEmployeeForm.reset();
     }
     else{
-      this.employee=Object.assign({},this._employeeService.getEmployee(id));
+      //this.employee=Object.assign({},this._employeeService.getEmployee(id));
+      this._employeeService.getEmployee(id).subscribe((data)=>{
+        this.employee=data;
+      });
     }
   }
 

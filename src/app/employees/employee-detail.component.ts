@@ -17,7 +17,10 @@ export class EmployeeDetailComponent implements OnInit {
     // this.employee=this._employeeService.getEmployee(this._id);
     this._route.paramMap.subscribe(params =>{ 
       this._id= +params.get('id')
-      this.employee=this._employeeService.getEmployee(this._id);
+      //this.employee=this._employeeService.getEmployee(this._id);
+      this._employeeService.getEmployee(this._id).subscribe((data)=>{
+        this.employee=data;
+      });
     })
   }
   private _id:number;

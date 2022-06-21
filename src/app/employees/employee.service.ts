@@ -61,8 +61,9 @@ export class EmployeeService implements OnInit {
     return this._httpClient.get<Employee[]>('https://localhost:44337/api/employees');
   }
 
-  getEmployee(id: number): Employee {
-    return this.listEmployees.find((e) => e.id === id);
+  getEmployee(id: number): Observable<Employee> {
+    //return this.listEmployees.find((e) => e.id === id);
+    return this._httpClient.get<Employee>('https://localhost:44337/api/employees/'+id);
   }
 
   save(employee: Employee) {
