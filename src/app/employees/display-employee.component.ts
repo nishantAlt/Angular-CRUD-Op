@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Employee } from '../models/employee.model';
+import { EmployeeService } from './employee.service';
 
 @Component({
   selector: 'app-display-employee',
@@ -10,12 +11,13 @@ import { Employee } from '../models/employee.model';
 })
 export class DisplayEmployeeComponent implements OnInit, OnChanges {
   @Input() employee : Employee;
-
+  @Input() searchTerm: string;
   @Output() nofity: EventEmitter<string>=new EventEmitter<string>();
-
+  @Output() notifyDelete: EventEmitter<number>=new EventEmitter<number>();
+  confirmDelete:boolean=false;
   selectedEmployeeId:number;
-
-  constructor(private _route:ActivatedRoute) { }
+  panelExpanded:boolean=true;
+  constructor(private _route:ActivatedRoute,private _router:Router,private _employeeService:EmployeeService) { }
 
   handleClick(){
     this.nofity.emit(this.employee.name);
@@ -32,5 +34,19 @@ export class DisplayEmployeeComponent implements OnInit, OnChanges {
     // console.warn("=====")
 
     this.selectedEmployeeId=+this._route.snapshot.paramMap.get('id');
+  }
+
+  viewEmployee()
+  {
+    this._router.navigate(['/employees',this.employee.id],{queryParams: {'searchTerm':this.searchTerm}})
+  }
+
+  editEmployee(){
+    this._router.navigate(['/edit',this.employee.id])
+  } 
+
+  deleteEmployee(){
+    this._employeeService.deleteEmployee(this.employee.id);
+    this.notifyDelete.emit(this.employee.id);
   }
 }

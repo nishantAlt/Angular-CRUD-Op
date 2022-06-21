@@ -67,10 +67,7 @@ export class ListEmployeesComponent implements OnInit {
     return this.employees.filter(employee => employee.name.toLowerCase().indexOf(searchString.toLowerCase())!==-1)
   } 
 
-  onClick(employeeId: number)
-  {
-    this._router.navigate(['employees',employeeId],{queryParams: {'searchTerm':this.searchTerm, 'testParam': 'testValue'}})
-  }
+
   
   employeeToDisplay: Employee;
   private arrayIndex=1;
@@ -85,14 +82,23 @@ export class ListEmployeesComponent implements OnInit {
     }
   }
 
-  changeEmployeeName()
+
+  onDeleteNotification(id: number)
   {
-    // const newEmployeeArray: Employee[] = Object.assign([],this.employees);
-    // newEmployeeArray[0].name='Jordan';
-    // this.employees=newEmployeeArray;
-    this.employees[0].name="Jordan";
-    this.filteredEmployees=this.filterEmployees(this.searchTerm);
+    const i=this.filteredEmployees.findIndex(e=>e.id===id);
+    if(i!==-1)
+    {
+      this.filteredEmployees.splice(i, 1);
+    }
   }
+  // changeEmployeeName()
+  // {
+  //   // const newEmployeeArray: Employee[] = Object.assign([],this.employees);
+  //   // newEmployeeArray[0].name='Jordan';
+  //   // this.employees=newEmployeeArray;
+  //   this.employees[0].name="Jordan";
+  //   this.filteredEmployees=this.filterEmployees(this.searchTerm);
+  // }
 }
 
 

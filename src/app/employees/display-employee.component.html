@@ -1,10 +1,10 @@
 
   <div class="alert" [class.alert-info]="selectedEmployeeId===employee.id" [class.alert-primary]="selectedEmployeeId!==employee.id" (click)="handleClick()">
-    <div class="panel-heading bg-blue
+    <div (click)="panelExpanded=!panelExpanded" class="panel-heading pointerCursor bg-blue
     ">
         <h3 class="panel-title">{{ employee.name }}</h3>
       </div>
-      <div class="panel-body">
+      <div [hidden]="panelExpanded" class="panel-body">
         <div class="col-md-10">
           <div class="row vertical-align">
             <div class="col-md-4">
@@ -58,5 +58,15 @@
           </div>
         </div>
       </div>
-    
+    <div [hidden]="panelExpanded" class="panel-footer mt-2">
+      <button class="btn btn-success" (click)="viewEmployee()">View</button>
+      <button class="btn btn-primary" (click)="editEmployee()">Edit</button>
+      <span *ngIf="confirmDelete">
+        <span>Are you sure you want to Delete?</span>
+        <button class="btn btn-danger" (click)="deleteEmployee()">Yes</button>
+        <button class="btn btn-success" (click)="confirmDelete=false">No</button>
+      </span>
+      <button *ngIf="!confirmDelete" class="btn btn-danger" (click)="confirmDelete=true">Delete</button>
+    </div>
   </div>
+ 

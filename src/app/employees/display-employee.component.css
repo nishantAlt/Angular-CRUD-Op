@@ -7,3 +7,16 @@
     display: flex;
     align-items: center;
 }
+
+button.btn{
+    width: 70px;
+    margin-left: 5px;
+}
+
+.pointerCursor{
+    cursor: pointer;
+}
+/* .panel-heading{
+    background-color: aqua;
+    border-radius: 10px;
+} */
