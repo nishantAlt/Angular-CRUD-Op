@@ -20,7 +20,9 @@
     <app-display-employee #childComponent (nofity)="handleNotify($event)" [employee]="employee" [searchTerm]="searchTerm" (notifyDelete)="onDeleteNotification($event)"></app-display-employee>
 </div>
 
-
+<div *ngIf="error">
+  {{error}}
+</div>
 
 <!-- <button (click)="nextEmployee()" class="btn btn-primary">
   View Next Employee

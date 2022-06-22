@@ -77,9 +77,15 @@ required:boolean=true;
     const newEmployee: Employee = Object.assign({},this.employee)
     console.log(empForm.value);
     console.log(empForm);
-    this._employeeService.save(newEmployee);
-    empForm.reset();
-    this._router.navigate(['list']);
+    this._employeeService.save(newEmployee).subscribe(
+      (data:Employee)=>{
+        console.log("From server: ")
+        console.log(data)
+        empForm.reset();
+        this._router.navigate(['list']);
+      }
+    );
+    
   }
 
  

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Employee } from '../models/employee.model';
+import { ResolvedEmployeeList } from './resolved-employeelist.model';
 
 
 @Component({
@@ -10,12 +11,18 @@ import { Employee } from '../models/employee.model';
 })
 export class ListEmployeesComponent implements OnInit {
 
-
+  error:string;
   employees?: Employee[];
   filteredEmployees?: Employee[];
   constructor(private _router:Router, private _route:ActivatedRoute) {
-    this.employees=this._route.snapshot.data['employeeList'];
-
+    const resolvedEmployeeList:ResolvedEmployeeList=this._route.snapshot.data['employeeList'];
+    if(resolvedEmployeeList.error==null)
+    {
+      this.employees=resolvedEmployeeList.employeeList;
+    }
+    else{
+      this.error= resolvedEmployeeList.error;
+    }
     this._route.queryParamMap.subscribe((queryParam)=>{
       if(queryParam.has('searchTerm'))
       {
