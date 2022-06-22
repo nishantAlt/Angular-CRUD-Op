@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 import { Department } from '../models/deptartment.model';
 import { Employee } from '../models/employee.model';
 import { EmployeeService } from './employee.service';
@@ -77,7 +79,9 @@ required:boolean=true;
     const newEmployee: Employee = Object.assign({},this.employee)
     console.log(empForm.value);
     console.log(empForm);
-    this._employeeService.save(newEmployee).subscribe(
+    this._employeeService.save(newEmployee).pipe(
+      catchError(this.handleError)
+    ).subscribe(
       (data:Employee)=>{
         console.log("From server: ")
         console.log(data)
@@ -86,6 +90,19 @@ required:boolean=true;
       }
     );
     
+  }
+
+  private handleError(errorResponse: HttpErrorResponse)
+  {
+    if(errorResponse.error instanceof ErrorEvent)
+    {
+      console.log("Client Side Error: ",errorResponse.status
+      );
+    }
+    else{
+      console.log("Server Side Error: ",errorResponse);
+    }
+    return throwError(()=>new Error('There is a problem'));
   }
 
  
